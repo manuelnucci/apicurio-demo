@@ -2,7 +2,7 @@
 openapi: 3.0.2
 info:
   title: API
-  version: 1.0.1
+  version: 1.0.2
   description: |-
     A sample API that uses a petstore as an example to demonstrate features
     in the OpenAPI 3.0 specification
@@ -37,6 +37,12 @@ paths:
         in: query
         required: false
       responses:
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: unexpected error
         "200":
           content:
             application/json:
@@ -60,12 +66,6 @@ paths:
                     name: Toufik
                     tag: cat
           description: pet response
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: unexpected error
       operationId: findPets
       description: |
         Returns all pets from the system that the user has access to
@@ -83,6 +83,12 @@ paths:
                   tag: cat
         required: true
       responses:
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: unexpected error
         "200":
           content:
             application/json:
@@ -95,28 +101,28 @@ paths:
                     name: Tigresse
                     tag: cat
           description: pet response
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: unexpected error
       operationId: addPet
       description: Creates a new pet in the store.  Duplicates are allowed
   /pets/{id}:
     get:
       parameters:
-      - name: id
+      - examples:
+          zaza:
+            value: 1
+        name: id
         description: ID of pet to fetch
         schema:
           format: int64
           type: integer
         in: path
         required: true
-        examples:
-          zaza:
-            value: 1
       responses:
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: unexpected error
         "200":
           content:
             application/json:
@@ -129,12 +135,6 @@ paths:
                     name: Zaza
                     tag: cat
           description: pet response
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: unexpected error
       operationId: findPetById
       description: "Returns a user based on a single ID, if the user does not have\n\
         access to the pet"
@@ -148,14 +148,14 @@ paths:
         in: path
         required: true
       responses:
-        "204":
-          description: pet deleted
         default:
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
           description: unexpected error
+        "204":
+          description: pet deleted
       operationId: deletePet
       description: deletes a single pet based on the ID supplied
     parameters:
